@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,22 +62,6 @@ public class AboutActivity extends XposedBaseActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_about, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent sharingIntent = new Intent(ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(EXTRA_TEXT, getString(R.string.share_app_text, getString(R.string.support_material_xda)));
-        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share)));
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void openLink(View view) {
         NavUtil.startURL(this, view.getTag().toString());
     }
@@ -86,6 +71,7 @@ public class AboutActivity extends XposedBaseActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            setHasOptionsMenu(true);
         }
 
         @Override
@@ -96,6 +82,21 @@ public class AboutActivity extends XposedBaseActivity {
         }
 
         @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            inflater.inflate(R.menu.menu_about, menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            Intent sharingIntent = new Intent(ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(EXTRA_TEXT, getString(R.string.share_app_text, getString(R.string.support_material_xda)));
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share)));
+
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.tab_about, container, false);
 
@@ -103,6 +104,11 @@ public class AboutActivity extends XposedBaseActivity {
             View licensesView = v.findViewById(R.id.licensesView);
             View translatorsView = v.findViewById(R.id.translatorsView);
             View sourceCodeView = v.findViewById(R.id.sourceCodeView);
+            View settingsButton = v.findViewById(R.id.settingsButton);
+            View installerSupportView = v.findViewById(R.id.installerSupportView);
+            View faqView = v.findViewById(R.id.faqView);
+            View donateView = v.findViewById(R.id.donateView);
+            TextView txtModuleSupport = v.findViewById(R.id.tab_support_module_description);
 
             String packageName = getActivity().getPackageName();
             String translator = getResources().getString(R.string.translator);
@@ -138,18 +144,36 @@ public class AboutActivity extends XposedBaseActivity {
                 }
             });
 
-            sourceCodeView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavUtil.startURL(getActivity(), getString(R.string.about_source));
-                }
-            });
+            setupView(sourceCodeView, R.string.about_source);
 
             if (translator.isEmpty()) {
                 translatorsView.setVisibility(View.GONE);
             }
 
+            settingsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), SettingsActivity.class));
+                }
+            });
+
+            txtModuleSupport.setText(getString(R.string.support_modules_description,
+                    getString(R.string.module_support)));
+
+            setupView(installerSupportView, R.string.support_material_xda);
+            setupView(faqView, R.string.support_faq_url);
+            setupView(donateView, R.string.support_donate_url);
+
             return v;
+        }
+
+        public void setupView(View v, final int url) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavUtil.startURL(getActivity(), getString(url));
+                }
+            });
         }
 
         private void createLicenseDialog() {

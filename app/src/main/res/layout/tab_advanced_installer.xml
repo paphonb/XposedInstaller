@@ -9,10 +9,10 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp"
         app:tabIndicatorColor="@android:color/white"
         app:tabMode="scrollable"
         app:tabTextAppearance="@style/TextAppearance.Design.Tab"/>

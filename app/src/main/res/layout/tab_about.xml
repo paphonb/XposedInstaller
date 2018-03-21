@@ -10,6 +10,8 @@
     <LinearLayout
         android:padding="8dp"
         android:id="@android:id/content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -31,23 +33,31 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="72dp"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:layout_margin="16dp"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/ic_launcher"/>
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/app_name"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+                    <ImageView
+                        android:id="@+id/settingsButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:text="@string/app_name"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+                        android:padding="16dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_nav_settings"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -229,6 +239,8 @@
         </android.support.v7.widget.CardView>
 
         <include layout="@layout/card_authors"/>
+
+        <include layout="@layout/tab_support"/>
 
     </LinearLayout>
 

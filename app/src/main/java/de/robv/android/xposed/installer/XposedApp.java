@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -174,10 +175,17 @@ public class XposedApp extends Application implements ActivityLifecycleCallbacks
             if (getPreferences().getBoolean("nav_bar", false)) {
                 activity.getWindow().setNavigationBarColor(darkenColor(color, 0.85f));
             } else {
-                int black = activity.getResources().getColor(android.R.color.black);
-                activity.getWindow().setNavigationBarColor(black);
+                activity.getWindow().setNavigationBarColor(Build.VERSION.SDK_INT >= 27 ?
+                        getColorAttr(activity, android.R.attr.navigationBarColor) : Color.BLACK);
             }
         }
+    }
+
+    public static int getColorAttr(Context context, int attr) {
+        TypedArray ta = context.obtainStyledAttributes(new int[]{attr});
+        int colorAttr = ta.getColor(0, 0);
+        ta.recycle();
+        return colorAttr;
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {

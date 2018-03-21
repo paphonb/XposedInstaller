@@ -14,6 +14,7 @@
             android:id="@+id/disableView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackground"
             android:elevation="2dp"
             app:cardCornerRadius="0dp">
 
@@ -26,6 +27,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_margin="12dp"
                 android:checked="true"
+                android:clickable="false"
                 android:text="@string/status"
                 android:textSize="16sp"/>
 
@@ -34,8 +36,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
+            android:layout_marginLeft="8dip"
+            android:layout_marginRight="8dip"
             android:layout_marginTop="6dp"
             android:orientation="vertical">
 

@@ -299,9 +299,11 @@ public class StatusInstallerFragment extends Fragment {
 
         xposedDisable.setChecked(!DISABLE_FILE.exists());
 
-        xposedDisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        disableView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
+                xposedDisable.setChecked(!xposedDisable.isChecked());
+
                 if (DISABLE_FILE.exists()) {
                     DISABLE_FILE.delete();
                     Snackbar.make(xposedDisable, R.string.xposed_on_next_reboot, Snackbar.LENGTH_LONG).show();

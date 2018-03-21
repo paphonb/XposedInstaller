@@ -145,21 +145,6 @@ public class ModulesFragment extends Fragment implements ModuleListener, Adapter
         registerForContextMenu(getListView());
         mModuleUtil.addListener(this);
 
-        ActionBar actionBar = ((WelcomeActivity) getActivity()).getSupportActionBar();
-
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int sixDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, metrics);
-        int eightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, metrics);
-        assert actionBar != null;
-        int toolBarDp = actionBar.getHeight() == 0 ? 196 : actionBar.getHeight();
-
-        getListView().setDivider(null);
-        getListView().setDividerHeight(sixDp);
-        getListView().setPadding(eightDp, toolBarDp + eightDp, eightDp, eightDp);
-        getListView().setClipToPadding(false);
-        getListView().setOnItemClickListener(this);
-        getListView().setEmptyView(mBackgroundList);
-
         setHasOptionsMenu(true);
     }
 
