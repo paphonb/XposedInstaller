@@ -2,6 +2,8 @@ package de.robv.android.xposed.installer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,6 +88,27 @@ public class WelcomeActivity extends XposedBaseActivity
 
         if (Build.VERSION.SDK_INT >= 21)
             getWindow().setStatusBarColor(darkenColor(XposedApp.getColor(this), 0.85f));
+
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_checked },
+                new int[] { }
+        };
+
+        int[] colors = new int[] {
+                XposedApp.getColor(this),
+                getColorAttr(R.attr.colorControlNormal)
+        };
+
+        ColorStateList colorStateList = new ColorStateList(states, colors);
+        mNavigationView.setItemIconTintList(colorStateList);
+        mNavigationView.setItemTextColor(colorStateList);
+    }
+
+    private int getColorAttr(int attr) {
+        TypedArray ta = obtainStyledAttributes(new int[]{attr});
+        int colorAttr = ta.getColor(0, 0);
+        ta.recycle();
+        return colorAttr;
     }
 
     public void switchFragment(int itemId) {
